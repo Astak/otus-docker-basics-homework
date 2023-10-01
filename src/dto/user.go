@@ -1,6 +1,4 @@
-package viewmodels
-
-import "github.com/Astak/otus-docker-basics-homework/web-service-gin/data"
+package dto
 
 type UserRequest struct {
 	UserName  string `json:"username"`
@@ -17,13 +15,4 @@ type UserResponse struct {
 	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
 	Phone     string `json:"phone"`
-}
-
-func (response *UserResponse) MapFromModel(model data.User) {
-	response.ID = model.ID
-	response.UserName = model.UserName
-	response.FirstName = model.FirstName
-	response.LastName = model.LastName
-	response.Email = model.Email
-	response.Phone = model.Phone
 }

@@ -1,4 +1,4 @@
-package viewmodels
+package dto
 
 const (
 	errorBadRequest int32 = 400
@@ -10,14 +10,14 @@ type errorResponse struct {
 	Message string `json:"message"`
 }
 
-func NewBadRequest(message string) *errorResponse {
+func NewBadRequestError(message string) *errorResponse {
 	return &errorResponse{
 		Code:    errorBadRequest,
 		Message: message,
 	}
 }
 
-func NewNotFound(message string) *errorResponse {
+func NewNotFoundError(message string) *errorResponse {
 	return &errorResponse{
 		Code:    errorNotFound,
 		Message: message,

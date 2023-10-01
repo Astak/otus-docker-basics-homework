@@ -1,21 +1,30 @@
 package main
 
 import (
-	"github.com/Astak/otus-docker-basics-homework/web-service-gin/controllers"
-	"github.com/gin-gonic/gin"
+	"flag"
+	"fmt"
+	"os"
+
+	"github.com/Astak/otus-docker-basics-homework/web-service-gin/config"
+	"github.com/Astak/otus-docker-basics-homework/web-service-gin/handler"
+	"github.com/Astak/otus-docker-basics-homework/web-service-gin/router"
+	"github.com/rs/zerolog/log"
 )
 
 func main() {
-	router := gin.Default()
-
-	healthController := controllers.NewHealthController()
-	router.GET("/health", healthController.GetHealth)
-
-	userController := controllers.NewUserController()
-	router.GET("/user/:id", userController.GetUserHandler)
-	router.POST("/user", userController.CreateUserHandler)
-	router.PUT("/user/:id", userController.UpdateUserHandler)
-	router.DELETE("/user/:id", userController.DeleteUserHandler)
-
-	router.Run("0.0.0.0:8000")
+	configPath := flag.String("configpath", "", "Config Path")
+	flag.Parse()
+	if configPath == nil || len(*configPath) == 0 {
+		log.Fatal().Msgf("Unable to load config path. Empty path specified. %s", *configPath)
+	}
+	if _, err := os.Stat(*configPath); os.IsNotExist(err) {
+		log.Fatal().Msgf("Unable to load config path. Path not found. %s", *configPath)
+	}
+	cfg, err := config.LoadConfig(configPath)
+	if err != nil {
+		log.Fatal().Msgf(err.Error())
+	}
+	h := handler.LoadHandlerFromConfig(cfg)
+	r := router.SetupRouter(h)
+	r.Run(fmt.Sprintf("0.0.0.0:%d", cfg.Port))
 }
