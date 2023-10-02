@@ -1,12 +1,22 @@
 # OTUS | Основы работы с Docker | Домашнее задание
 
-## Как запустить
-```
-docker build -t otus-docker-basics-homework .
-docker run --rm -d -p 80:8000 --name web-service-gin otus-docker-basics-homework
-```
+## Как запустить локально
+```console
+#Запустить все
+docker-compose up -d
 
-## Как проверить
-```
-curl http://localhost/health
+#Запустить Postgres и миграцию
+docker-compose up -d migrate
+
+#Запустить Postgres и сервис
+docker-compose up -d api
+
+#Запустить только Postgres
+docker-compose up -d db
+
+#Запустить Postgres и сервис с пересборкой контейнера
+docker-compose up -d --build api
+
+#Запустить сервис не в контейрере
+go run . -configpath=config.yml
 ```
