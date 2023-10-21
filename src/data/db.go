@@ -20,7 +20,7 @@ func NewDatabase(c config.Config) *Database {
 }
 
 func NewPgConnectionPool(c config.Config) (*pgxpool.Pool, error) {
-	dbConfig, err := pgxpool.ParseConfig(c.DbUrl)
+	dbConfig, err := pgxpool.ParseConfig(c.GetDbUrl())
 	if err != nil {
 		return nil, err
 	}

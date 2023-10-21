@@ -1,2 +1,6 @@
 PORT: 8000
-DB_URL: postgres://test:test@localhost:5435/gomin
+DB_USER: test
+DB_PASSWORD: test
+DB_HOST: localhost
+DB_PORT: 5435
+DB_NAME: gomin
