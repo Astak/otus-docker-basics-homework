@@ -12,6 +12,6 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
 FROM scratch
 COPY --from=build /bin/app /bin/app
 COPY --from=build /src/config.yml /bin/config.yml
-COPY --from=build /src/migrations/sql /migrations
+COPY --from=build /src/migrations/sql /migrations/sql
 EXPOSE 8000
 ENTRYPOINT ["/bin/app", "-configpath=/bin/config.yml"]

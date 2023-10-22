@@ -11,7 +11,7 @@ import (
 
 func Migrate(config config.Config) {
 	dbUrl := config.GetDbDevUrl()
-	m, err := migrate.New("file://migrations", dbUrl)
+	m, err := migrate.New("file://migrations/sql", dbUrl)
 	if err != nil {
 		log.Fatal(err)
 	}

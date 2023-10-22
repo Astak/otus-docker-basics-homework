@@ -2,9 +2,11 @@ package data
 
 import (
 	"context"
+	"errors"
 
 	"github.com/Astak/otus-docker-basics-homework/web-service-gin/models"
 	"github.com/georgysavva/scany/v2/pgxscan"
+	"github.com/jackc/pgx/v5"
 )
 
 type UserRepository interface {
@@ -48,7 +50,10 @@ func (repo PostgresUserRepository) GetUser(id int64) (*models.User, error) {
 	if err != nil {
 		panic(err)
 	}
-	if err := pgxscan.ScanOne(&user, rows); err != nil {
+	err = pgxscan.ScanOne(&user, rows)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return nil, nil
+	} else if err != nil {
 		panic(err)
 	}
 	return &user, nil
